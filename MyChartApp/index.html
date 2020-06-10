@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>グラフを使った可視化アプリの例</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="http://mgskjaeveland.github.io/sgvizler/v/0.6/sgvizler.js"></script>
+    <script type="text/javascript">
+      // Prefix の設定
+      sgvizler.prefix('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
+      sgvizler.prefix('owl', 'http://dbpedia.org/ontology/');
+      sgvizler.prefix(' dbpj-prop','http://ja.dbpedia.org/property/');
+      // HTMLファイルをロードしたら画面描画
+      $(document).ready(function() { sgvizler.containerDrawAll(); });
+  </script></head>
+  <body>
+    <h1>グラフを使った可視化アプリ</h1>  
+    <h2>通る路線の数が多い駅TOP10</h2>
+    <h3>■棒グラフ</h3>
+    <div id="sgvzl_example_query"
+	 data-sgvizler-endpoint="http://ja.dbpedia.org/sparql"
+	 data-sgvizler-query="select distinct  ?stat (count(?spot) AS ?c) 
+ where {
+?s dbpj-prop:駅数 ?spot.
+?stat dbpedia-owl:servingRailwayLine ?s.
+}GROUP BY ?stat
+ORDER BY DESC (?c)
+LIMIT 10"
+	 data-sgvizler-chart="google.visualization.BarChart"
+	 data-sgvizler-loglevel="2"
+	 style="width:1000px; height:1000px;"></div>
+
+    <h3>■テーブル</h3>
+    <div id="sgvzl_example_table"
+	 data-sgvizler-endpoint="http://ja.dbpedia.org/sparql"
+	 data-sgvizler-query="select distinct  ?stat (count(?spot) AS ?c) 
+ where {
+?s dbpj-prop:駅数 ?spot.
+?stat dbpedia-owl:servingRailwayLine ?s.
+}GROUP BY ?stat
+ORDER BY DESC (?c)
+LIMIT 10"
+		     data-sgvizler-chart="google.visualization.Table"
+		     data-sgvizler-loglevel="2" style="width:500px; height:1000px;"></div>
+	      </body>
+	    </html>
